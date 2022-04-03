@@ -54,20 +54,6 @@ create table SPJ
 )
 select * from  SPJ
 
-----6. 删除表P中的字段pweight
-use dbsupply 
-alter table P
-drop column pweight
-
-----7.向表P中增加pprice----修改表的结构
-alter table P 
-add pprice date
-select * from P
-
----8.添加表J中jname为唯一约束
-alter table J -----修改表结构
-add unique(jname)     -------添加姓名取唯一值的约束
-
 ----向供应商添加数据
 insert into S
 values(1,'上海集团','上海'),
@@ -119,13 +105,18 @@ select *from P
 where pcolor like '%black%'
 -----连接查询
 
+---6.查询供应商号 名 城市 及供应数量
+select a.*,d.n from S as a
+inner join SPJ as d on a.sno=d.sno
+
+---7.查询供应商名 零件名 项目名 供应商数量
+select b.sname,c.pname,d.jname,a.n from SPJ as a
+inner join S as b on a.sno=b.snoinner join P as c on a.pno=c.pnoinner join J as d on a.sno=d.jno
+
 ---8.查询供应数量大于2的供应商名 零件名 项目名
 select b.sname,c.pname,d.jname,a.n from SPJ as a
-inner join S as b on a.sno=b.snoinner join P as c on a.pno=c.pnoinner join J as d on a.sno=d.jnowhere a.n>2
------1. 内连接
---select a.*,b.* from S as a
---inner join P as b on a.sno=b.pno
-
+inner join S as b on a.sno=b.snoinner join P as c on a.pno=c.pnoinner join J as d on a.sno=d.jnowhere a.n>2----9.查询供应商名 零件名 零件颜色 项目名 供应商数量 按供应数量排序select b.sname,c.pname,c.pcolor,d.jno,a.n from SPJ as a
+inner join S as b on a.sno=b.snoinner join P as c on a.pno=c.pnoinner join J as d on a.sno=d.jnoorder by n asc,jno desc
 
 
 
